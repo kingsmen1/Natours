@@ -53,21 +53,21 @@ const connectSrcUrls = [
   'ws://127.0.0.1:*/',
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      // defaultSrc: [],
-      connectSrc: ["'self'", ...connectSrcUrls],
-      scriptSrc: ["'self'", ...scriptSrcUrls],
-      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      workerSrc: ["'self'", 'blob:'],
-      frameSrc: ["'self'", 'https://*.stripe.com'],
-      // objectSrc: [],
-      imgSrc: ["'self'", 'blob:', 'data:'],
-      fontSrc: ["'self'", ...fontSrcUrls],
-    },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       // defaultSrc: [],
+//       connectSrc: ["'self'", ...connectSrcUrls],
+//       scriptSrc: ["'self'", ...scriptSrcUrls],
+//       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+//       workerSrc: ["'self'", 'blob:'],
+//       frameSrc: ["'self'", 'https://*.stripe.com'],
+//       // objectSrc: [],
+//       imgSrc: ["'self'", 'blob:', 'data:'],
+//       fontSrc: ["'self'", ...fontSrcUrls],
+//     },
+//   })
+// );
 
 //*Development loging
 if (process.env.NODE_ENV === 'development') {
