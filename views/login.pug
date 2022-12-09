@@ -3,7 +3,7 @@ extends base
 block content
 
     main.main
-        .login-form
+        .login-form(action='/api/v1/users/login' method='POST', enctype='multipart/form-data')
             h2.heading-secondary.ma-bt-lg Log into your account
             form.form.form--login
                 .form__group
