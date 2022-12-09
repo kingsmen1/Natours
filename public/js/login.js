@@ -7,7 +7,7 @@ export const login = async (email, password) => {
     //axios is used to send http methods from client side to server.
     const res = await axios({
       method: 'POST',
-      url: 'https://natours-production-5eea.up.railway.app/api/v1/users/login',
+      url: '/api/v1/users/login',
       data: {
         email,
         password,

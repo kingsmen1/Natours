@@ -1,8 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-// const helmet = require('helmet');
-const cors = require('cors');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
@@ -32,13 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //*Set security HTTP headers.
 //^ we are not calling helmet function it just returns a middleware .
-// app.use(helmet());
-app.use(
-  cors({
-    credentials: true,
-    origin: ['https://natours-production-5eea.up.railway.app'],
-  })
-);
+app.use(helmet());
 const scriptSrcUrls = [
   'https://api.tiles.mapbox.com/',
   'https://api.mapbox.com/',
@@ -60,21 +53,21 @@ const connectSrcUrls = [
   'ws://127.0.0.1:*/',
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       // defaultSrc: [],
-//       connectSrc: ["'self'", ...connectSrcUrls],
-//       scriptSrc: ["'self'", ...scriptSrcUrls],
-//       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-//       workerSrc: ["'self'", 'blob:'],
-//       frameSrc: ["'self'", 'https://*.stripe.com'],
-//       // objectSrc: [],
-//       imgSrc: ["'self'", 'blob:', 'data:'],
-//       fontSrc: ["'self'", ...fontSrcUrls],
-//     },
-//   })
-// );
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      // defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", 'blob:'],
+      frameSrc: ["'self'", 'https://*.stripe.com'],
+      // objectSrc: [],
+      imgSrc: ["'self'", 'blob:', 'data:'],
+      fontSrc: ["'self'", ...fontSrcUrls],
+    },
+  })
+);
 
 //*Development loging
 if (process.env.NODE_ENV === 'development') {
