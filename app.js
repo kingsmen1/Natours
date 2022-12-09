@@ -1,7 +1,8 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const helmet = require('helmet');
+// const helmet = require('helmet');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
@@ -31,7 +32,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //*Set security HTTP headers.
 //^ we are not calling helmet function it just returns a middleware .
-app.use(helmet());
+// app.use(helmet());
+app.use(
+  cors({
+    credentials: true,
+    origin: ['https://natours-production-5eea.up.railway.app'],
+  })
+);
 const scriptSrcUrls = [
   'https://api.tiles.mapbox.com/',
   'https://api.mapbox.com/',
