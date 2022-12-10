@@ -1,12 +1,18 @@
 /* eslint-disable */
 console.log('hellow from parcel');
 
-import 'core-js/stable';
-// import axios from 'axios';
-import { login, logout } from './login';
-import { displayMap } from './mapbox';
-import { updateData, updateSettings } from './updateSetting';
-import { bookTour } from './stripe';
+// import 'core-js/stable';
+// // import axios from 'axios';
+// import { login, logout } from './login';
+// import { displayMap } from './mapbox';
+// import { updateData, updateSettings } from './updateSetting';
+// import { bookTour } from './stripe';
+const showAlert = (type, msg) => {
+  hideAlert();
+  const markup = `<div class="alert alert--${type}">${msg}</div>`;
+  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
+  window.setTimeout(hideAlert, 5000);
+};
 
 //DOM Elements
 const mapBox = document.getElementById('map');
@@ -31,11 +37,51 @@ if (loginForm) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     console.log(email, password);
+    const login = async (email, password) => {
+      console.log('login');
+      try {
+        //axios is used to send http methods from client side to server.
+        const res = await axios({
+          method: 'POST',
+          url: '/api/v1/users/login',
+          data: {
+            email,
+            password,
+          },
+        });
+        console.log('after axios');
+        console.log(res.data.status);
+
+        if (res.data.status === 'success') {
+          showAlert('success', 'Logged in successfully!');
+          window.setTimeout(() => {
+            location.assign('/');
+          }, 1500);
+        }
+      } catch (e) {
+        showAlert('error', e.response.data.message);
+        console.log(e.response.data.message);
+      }
+    };
     login(email, password);
   });
 }
 
-if (logOutButton) logOutButton.addEventListener('click', logout);
+if (logOutButton)
+  logOutButton.addEventListener('click', async () => {
+    console.log('logout function played');
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: '/api/v1/users/logout',
+      });
+      // 'location.reload' It trigger's reload from server.
+      // It needs to set 'true' if not it will load from the same page/state from cache.
+      if (res.data.status == 'success') location.reload(true);
+    } catch (e) {
+      showAlert('error', 'Error logging out! Try Again .');
+    }
+  });
 
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
@@ -45,7 +91,31 @@ if (userDataForm) {
     form.append('email', document.getElementById('email').value);
     //Since we receave files in an array we have to select by index.
     form.append('photo', document.getElementById('photo').files[0]);
-    updateSettings(form, 'data');
+    async (data, type) => {
+      console.log(data, type);
+      try {
+        const url =
+          type === 'data'
+            ? '/api/v1/users/updateMe'
+            : '/api/v1/users/updateMyPassword';
+        const res = await axios({
+          method: 'PATCH',
+          url,
+          data: data,
+        });
+        console.log(res.status);
+        if (res.status === 200) {
+          showAlert('success', `${type} Data Updated successfully`);
+          //page reloading.
+          window.setTimeout(() => {
+            location.reload();
+          }, 1000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+      }
+    };
+    // updateSettings(form, 'data');
   });
 }
 
