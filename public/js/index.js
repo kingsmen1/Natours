@@ -2,7 +2,7 @@
 console.log('hellow from parcel');
 
 import 'core-js/stable';
-import axios from 'axios';
+// import axios from 'axios';
 import { login, logout } from './login';
 import { displayMap } from './mapbox';
 import { updateData, updateSettings } from './updateSetting';
