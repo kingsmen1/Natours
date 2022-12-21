@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
   //we only runs this function if the password is upddated.
+  //^for first signup 'this.ismodified return's true as new values is being assigned.
   if (!this.isModified('password')) return next();
 
   // Hash the password with cost of 12.
