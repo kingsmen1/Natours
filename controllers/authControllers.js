@@ -23,19 +23,18 @@ function generateJWT(id) {
 }
 
 const createSendToken = catchAsync(async (user, statusCode, req, res) => {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // const isProduction = process.env.NODE_ENV === 'production';
   const token = await generateJWT(user._id);
-  //Adding cookie to response.
-  res.cookie('jwt', token, {
+  const cookieOptions = {
     expires: new Date( // 90 * hrs * mins * sec* milliseconds = 90days
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    secure: isProduction,
-    // req.secure ||
-    // req.headers['x-forwarded-proto'] === 'https' ||
-    //cookies will be only send to an encrypted connection.
+    //secure: true, //cookies will be only send to an encrypted connection.
     httpOnly: true,
-  });
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  //Adding cookie to response.
+  res.cookie('jwt', token, cookieOptions);
   user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
