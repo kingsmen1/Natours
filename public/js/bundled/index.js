@@ -538,7 +538,6 @@ var _login = require("./login");
 var _mapbox = require("./mapbox");
 var _updateSetting = require("./updateSetting");
 var _stripe = require("./stripe");
-console.log("hellow from parcel");
 //DOM Elements
 const mapBox = document.getElementById("map");
 const loginForm = document.querySelector(".form--login");
@@ -549,14 +548,14 @@ const tourBookButton = document.getElementById("book-tour");
 if (mapBox) {
     //Accessing data from template and parsing.
     const locations = JSON.parse(document.getElementById("map").dataset.locations);
-    console.log(locations);
+    // console.log(locations);
     (0, _mapbox.displayMap)(locations);
 }
 if (loginForm) loginForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    console.log(email, password);
+    // console.log(email, password);
     (0, _login.login)(email, password);
 });
 if (logOutButton) logOutButton.addEventListener("click", (0, _login.logout));
@@ -1814,7 +1813,7 @@ const login = async (email, password)=>{
         //axios is used to send http methods from client side to server.
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "http://127.0.0.1:4500/api/v1/users/login",
+            url: "/api/v1/users/login",
             data: {
                 email,
                 password
@@ -1836,7 +1835,7 @@ const logout = async ()=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "GET",
-            url: "http://127.0.0.1:4500/api/v1/users/logout"
+            url: "/api/v1/users/logout"
         });
         // 'location.reload' It trigger's reload from server.
         // It needs to set 'true' if not it will load from the same page/state from cache.
@@ -1846,7 +1845,53 @@ const logout = async ()=>{
     }
 };
 
-},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
+},{"./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","axios":"jo6P5"}],"6Mcnf":[function(require,module,exports) {
+/* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "hideAlert", ()=>hideAlert);
+parcelHelpers.export(exports, "showAlert", ()=>showAlert);
+const hideAlert = ()=>{
+    const el = document.querySelector(".alert");
+    if (el) el.parentElement.removeChild(el);
+};
+const showAlert = (type, msg)=>{
+    hideAlert();
+    const markup = `<div class="alert alert--${type}">${msg}</div>`;
+    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    window.setTimeout(hideAlert, 5000);
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Axios", ()=>Axios);
@@ -2431,37 +2476,7 @@ function bind(fn, thisArg) {
 }
 exports.default = bind;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"cpqD8":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cpqD8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _utilsJs = require("./../utils.js");
@@ -5928,23 +5943,7 @@ function isAxiosError(payload) {
 }
 exports.default = isAxiosError;
 
-},{"./../utils.js":"5By4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6Mcnf":[function(require,module,exports) {
-/* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "hideAlert", ()=>hideAlert);
-parcelHelpers.export(exports, "showAlert", ()=>showAlert);
-const hideAlert = ()=>{
-    const el = document.querySelector(".alert");
-    if (el) el.parentElement.removeChild(el);
-};
-const showAlert = (type, msg)=>{
-    hideAlert();
-    const markup = `<div class="alert alert--${type}">${msg}</div>`;
-    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
-    window.setTimeout(hideAlert, 5000);
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3zDlz":[function(require,module,exports) {
+},{"./../utils.js":"5By4s","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3zDlz":[function(require,module,exports) {
 /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMap", ()=>displayMap);
@@ -5998,7 +5997,7 @@ var _alerts = require("./alerts");
 const updateSettings = async (data, type)=>{
     console.log(data, type);
     try {
-        const url = type === "data" ? "http://127.0.0.1:4500/api/v1/users/updateMe" : "http://127.0.0.1:4500/api/v1/users/updateMyPassword";
+        const url = type === "data" ? "/api/v1/users/updateMe" : "/api/v1/users/updateMyPassword";
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
             url,
@@ -6029,7 +6028,7 @@ const bookTour = async (tourId)=>{
     try {
         //1) Get Checkout sessoin from api.
         //^ Without parameter's axios is set default to 'get'
-        const session = await (0, _axiosDefault.default)(`http://127.0.0.1:4500/api/v1/booking/checkout-session/${tourId}`);
+        const session = await (0, _axiosDefault.default)(`/api/v1/booking/checkout-session/${tourId}`);
         //2) Create Checkout form + Charge Credit Card.
         await stripe.redirectToCheckout({
             sessionId: session.data.session.id

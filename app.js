@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const globalErrorHandler = require('./controllers/errorController');
@@ -27,6 +28,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 //*For serving static file to user ex -html , pics ,css.
 app.use(express.static(path.join(__dirname, 'public')));
+
+//*Enabling trust proxy
+app.enable('trust proxy');
 
 //*Set security HTTP headers.
 //^ we are not calling helmet function it just returns a middleware .
@@ -117,6 +121,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 //*Creating middleware. These runs only on request.
 //always use Global middleware's before route handlers .

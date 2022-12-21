@@ -20,8 +20,8 @@ module.exports = class Email {
         //^Sendinblue its a mailing service for marketing. Gmail Alternative.
         service: 'SendinBlue',
         auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD,
+          user: process.env.SENDINBLUE_USERNAME,
+          pass: process.env.SENDINBLUE_PASSWORD,
         },
       });
     }

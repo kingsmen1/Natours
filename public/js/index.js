@@ -1,6 +1,4 @@
 /* eslint-disable */
-console.log('hellow from parcel');
-
 import 'core-js/stable';
 import { login, logout } from './login';
 import { displayMap } from './mapbox';
@@ -20,7 +18,7 @@ if (mapBox) {
   const locations = JSON.parse(
     document.getElementById('map').dataset.locations
   );
-  console.log(locations);
+  // console.log(locations);
   displayMap(locations);
 }
 
@@ -29,7 +27,7 @@ if (loginForm) {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    console.log(email, password);
+    // console.log(email, password);
     login(email, password);
   });
 }

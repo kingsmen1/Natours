@@ -27,19 +27,17 @@ mongoose
   })
   .then(() => {
     console.log('DB connection successful');
+    const port = process.env.PORT || 4500;
+    const server = app.listen(port, () => {
+      console.log(`App listening on ${port}`);
+    });
+    //*handeling unhandledRejection by subscribing to unhandledRejection event.
+    process.on('unhandledRejection', (err) => {
+      console.log(err.name, err.message);
+      console.log('UNHANDLED REJECTION 💥SHUTTING DOWN ');
+      server.close(() => {
+        process.exit(1); //1 stands for unhandled rejection , 0 for success.
+      });
+    });
   })
   .catch((error) => console.log(error));
-
-const port = process.env.PORT || 4500;
-const server = app.listen(port, () => {
-  console.log(`App listening on ${port}`);
-});
-
-//*handeling unhandledRejection by subscribing to unhandledRejection event.
-process.on('unhandledRejection', (err) => {
-  console.log(err.name, err.message);
-  console.log('UNHANDLED REJECTION 💥SHUTTING DOWN ');
-  server.close(() => {
-    process.exit(1); //1 stands for unhandled rejection , 0 for success.
-  });
-});
