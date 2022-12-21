@@ -30,7 +30,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //*Enabling trust proxy
-app.enable('trust proxy');
+// app.enable('trust proxy');
 
 //*Set security HTTP headers.
 //^ we are not calling helmet function it just returns a middleware .
