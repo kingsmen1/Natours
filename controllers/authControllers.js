@@ -30,8 +30,8 @@ const createSendToken = catchAsync(async (user, statusCode, req, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     secure:
-      req.secure ||
-      req.headers['x-forwarded-proto'] === 'https' ||
+      // req.secure ||
+      // req.headers['x-forwarded-proto'] === 'https' ||
       process.env.NODE_ENV === 'production', //cookies will be only send to an encrypted connection.
     httpOnly: true,
   });
